@@ -44,12 +44,15 @@ static inline void EnQueue(lf_listhead *lf_list, lf_listnode *element)
 {
     lf_listnode *last;
     do {
+refetch:
         last = lf_list->tail;
         if(last == NULL) {
             /*first element, set tail, set head, if false, refetch tail */
             if (CAS((long*)&lf_list->tail, last, element) == TRUE) {
                 lf_list->head = element;
                 return;
+            } else {
+                goto refetch;
             }
         }
     } while (CAS(&last->pstNext, NULL, element) != TRUE);
