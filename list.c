@@ -32,6 +32,7 @@ node_t *list_insert_sort(node_t *list)
                 break;
             }
         }
+        /* new node need add tail reach this branch */
         if(NULL == *walk_node) {
             last_node->next = cmp_node;
             cmp_node->next = NULL;
